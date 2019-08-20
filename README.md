@@ -14,6 +14,7 @@ Visual Studio 2019
 
 ## Demo List
 * Direct2DQuickStart
+* Direct2DDrawGeometry
 
 ## License
 [MIT License](LICENSE).
