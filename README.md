@@ -12,6 +12,18 @@ Visual Studio 2019
  <img align="center" alt="VC142" src="https://github.com/zhaotianff/Direct2D/blob/master/Doc/vc142.PNG" />
 </p>
 
+>If you use Visual Studio 2017  
+>*Properties->Configuration Properties->General->Platform Toolset->Visual Studio 2017(v141)*  
+
+<p align="center">
+ <img align="center" alt="VC Setting" src="Doc/vc_settting.PNG" />
+</p>  
+
+>*Properties->Configuration Properties->C/C++->Language->Conformance mode->No*
+<p align="center">
+ <img align="center" alt="VC Setting" src="Doc/vc_settting_2.PNG" />
+</p>
+
 ## Demo List
 * Direct2DQuickStart
 * Direct2DDrawGeometry
