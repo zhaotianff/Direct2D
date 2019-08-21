@@ -16,12 +16,12 @@ Visual Studio 2019
 >*Properties->Configuration Properties->General->Platform Toolset->Visual Studio 2017(v141)*  
 
 <p align="center">
- <img align="center" alt="VC Setting" src="Doc/vc_settting.PNG" />
+ <img align="center" alt="VC Setting" src="https://github.com/zhaotianff/Direct2D/blob/master/Doc/vc_settting.PNG" />
 </p>  
 
 >*Properties->Configuration Properties->C/C++->Language->Conformance mode->No*
 <p align="center">
- <img align="center" alt="VC Setting" src="Doc/vc_settting_2.PNG" />
+ <img align="center" alt="VC Setting" src="https://github.com/zhaotianff/Direct2D/blob/master/Doc/vc_settting_2.PNG" />
 </p>
 
 ## Demo List
