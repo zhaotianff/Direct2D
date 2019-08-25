@@ -11,6 +11,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dirct2DHeaderFiles", "Dirct
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Direct2DDrawGeometry", "Direct2DDrawGeometry\Direct2DDrawGeometry.vcxproj", "{A5C821A9-E991-4F28-9E81-88D345D836E8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Direct2DBrushes", "Direct2DBrushes\Direct2DBrushes.vcxproj", "{2F4175C6-6E47-4C87-AC84-54C41BEBFBFB}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SingleInstanceApp", "SingleInstanceApp\SingleInstanceApp.vcxproj", "{BD2B5C41-DD79-41E9-BD1A-489A32F7B0CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -51,6 +55,22 @@ Global
 		{A5C821A9-E991-4F28-9E81-88D345D836E8}.Release|x64.Build.0 = Release|x64
 		{A5C821A9-E991-4F28-9E81-88D345D836E8}.Release|x86.ActiveCfg = Release|Win32
 		{A5C821A9-E991-4F28-9E81-88D345D836E8}.Release|x86.Build.0 = Release|Win32
+		{2F4175C6-6E47-4C87-AC84-54C41BEBFBFB}.Debug|x64.ActiveCfg = Debug|x64
+		{2F4175C6-6E47-4C87-AC84-54C41BEBFBFB}.Debug|x64.Build.0 = Debug|x64
+		{2F4175C6-6E47-4C87-AC84-54C41BEBFBFB}.Debug|x86.ActiveCfg = Debug|Win32
+		{2F4175C6-6E47-4C87-AC84-54C41BEBFBFB}.Debug|x86.Build.0 = Debug|Win32
+		{2F4175C6-6E47-4C87-AC84-54C41BEBFBFB}.Release|x64.ActiveCfg = Release|x64
+		{2F4175C6-6E47-4C87-AC84-54C41BEBFBFB}.Release|x64.Build.0 = Release|x64
+		{2F4175C6-6E47-4C87-AC84-54C41BEBFBFB}.Release|x86.ActiveCfg = Release|Win32
+		{2F4175C6-6E47-4C87-AC84-54C41BEBFBFB}.Release|x86.Build.0 = Release|Win32
+		{BD2B5C41-DD79-41E9-BD1A-489A32F7B0CF}.Debug|x64.ActiveCfg = Debug|x64
+		{BD2B5C41-DD79-41E9-BD1A-489A32F7B0CF}.Debug|x64.Build.0 = Debug|x64
+		{BD2B5C41-DD79-41E9-BD1A-489A32F7B0CF}.Debug|x86.ActiveCfg = Debug|Win32
+		{BD2B5C41-DD79-41E9-BD1A-489A32F7B0CF}.Debug|x86.Build.0 = Debug|Win32
+		{BD2B5C41-DD79-41E9-BD1A-489A32F7B0CF}.Release|x64.ActiveCfg = Release|x64
+		{BD2B5C41-DD79-41E9-BD1A-489A32F7B0CF}.Release|x64.Build.0 = Release|x64
+		{BD2B5C41-DD79-41E9-BD1A-489A32F7B0CF}.Release|x86.ActiveCfg = Release|Win32
+		{BD2B5C41-DD79-41E9-BD1A-489A32F7B0CF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
