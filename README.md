@@ -30,6 +30,7 @@ Visual Studio 2019
 * [Direct2DDrawBitmap](./Direct2D/Direct2DDrawBitmap)
 * [Direct2DBrushes](./Direct2D/Direct2DBrushes)
 * [SingleInstanceApp](./Direct2D/SingleInstanceApp)
+* [Direct2DDeviceContext](./Direct2D/Direct2DDeviceContext)
 
 ## License
 [MIT License](LICENSE).
