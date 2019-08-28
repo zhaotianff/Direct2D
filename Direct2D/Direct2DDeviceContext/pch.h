@@ -7,6 +7,8 @@
 #include<d3d11.h>
 #include<wrl/client.h>
 
+#define SAFERELEASE(ppInterfaceToRelease) if(ppInterfaceToRelease){ppInterfaceToRelease->Release() ; ppInterfaceToRelease = NULL ;}
+
 namespace DX
 {
 	// Convert DirectX error codes to exceptions.

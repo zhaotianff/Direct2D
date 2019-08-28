@@ -200,14 +200,10 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     return (INT_PTR)FALSE;
 }
 
-HRESULT InitID2D1DeviceContext(ID2D1DeviceContext** pDeviceContext)
+HRESULT InitID2D1DeviceContext(ID2D1DeviceContext** ppDeviceContext)
 {
-	// Create the DX11 API device object, and get a corresponding context.
-	Microsoft::WRL::ComPtr<ID3D11Device> device;
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
-
 	// This flag adds support for surfaces with a different color channel ordering than the API default.
-	// You need it for compatibility with Direct2D.
+   // You need it for compatibility with Direct2D.
 	UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 
 	// This array defines the set of DirectX hardware feature levels this app  supports.
@@ -225,6 +221,24 @@ HRESULT InitID2D1DeviceContext(ID2D1DeviceContext** pDeviceContext)
 		D3D_FEATURE_LEVEL_9_1
 	};
 
-	//TODO
-	return S_OK;
+	//// Create the DX11 API device object, and get a corresponding context.
+	ID3D11Device* pD3D11Device = NULL;
+	ID3D11DeviceContext* pD3D11DeviceContext = NULL;
+	D3D_FEATURE_LEVEL  m_featureLevel;
+
+	D3D11CreateDevice(nullptr,
+		D3D_DRIVER_TYPE_HARDWARE,
+		0,
+		creationFlags,
+		featureLevels,
+		ARRAYSIZE(featureLevels), 
+		D3D11_SDK_VERSION,
+		&pD3D11Device,
+		&m_featureLevel,
+		&pD3D11DeviceContext);
+
+	IDXGIDevice* dxgiDevice = NULL;
+
+	//Not Comptr
+	//pD3D11Device->As(&dxgiDevice);
 }
