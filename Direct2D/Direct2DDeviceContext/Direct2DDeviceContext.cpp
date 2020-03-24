@@ -17,7 +17,7 @@
  *Direct2D Effect is only supported by ID2D1DeviceContext interface
  */
 
-#include"pch.h"
+#include"framework.h"
 
 #pragma comment(lib,"d2d1.lib")
 
@@ -28,7 +28,14 @@ HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
-Microsoft::WRL::ComPtr<ID2D1DeviceContext> m_pD2DContext;
+ComPtr<ID2D1DeviceContext>     m_pD2DContext;
+ComPtr<ID2D1Factory2>          m_d2dFactory;
+D3D_FEATURE_LEVEL              m_featureLevel;
+ComPtr<ID2D1Device1>           m_d2dDevice;
+ComPtr<ID2D1DeviceContext1>    m_d2dContext;
+ComPtr<IDXGISwapChain1>        m_swapChain;
+float                          m_dpi;
+ComPtr<ID2D1Bitmap1>           m_d2dTargetBitmap;
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -36,7 +43,7 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
-HRESULT InitID2D1DeviceContext(ID2D1DeviceContext **pDeviceContext);
+HRESULT InitID2D1DeviceContext(ID2D1DeviceContext **pDeviceContext,HWND hwnd);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
@@ -200,8 +207,18 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     return (INT_PTR)FALSE;
 }
 
-HRESULT InitID2D1DeviceContext(ID2D1DeviceContext** ppDeviceContext)
+HRESULT InitID2D1DeviceContext(ID2D1DeviceContext** ppDeviceContext,HWND hwnd)
 {
+	D2D1_FACTORY_OPTIONS options;
+	ZeroMemory(&options, sizeof(D2D1_FACTORY_OPTIONS));
+	D2D1CreateFactory(
+		D2D1_FACTORY_TYPE_SINGLE_THREADED,
+		__uuidof(ID2D1Factory2),
+		&options,
+		&m_d2dFactory
+	);
+
+
 	// This flag adds support for surfaces with a different color channel ordering than the API default.
    // You need it for compatibility with Direct2D.
 	UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
@@ -221,24 +238,75 @@ HRESULT InitID2D1DeviceContext(ID2D1DeviceContext** ppDeviceContext)
 		D3D_FEATURE_LEVEL_9_1
 	};
 
-	//// Create the DX11 API device object, and get a corresponding context.
-	ID3D11Device* pD3D11Device = NULL;
-	ID3D11DeviceContext* pD3D11DeviceContext = NULL;
-	D3D_FEATURE_LEVEL  m_featureLevel;
+	// Create the DX11 API device object, and get a corresponding context.
 
-	D3D11CreateDevice(nullptr,
+	// ComPtr class
+	// Creates a smart pointer type that represents the interface specified by the template parameter. 
+	// header file : wrl/client.h
+	// namespace : Mirosoft::WRL
+	ComPtr<ID3D11Device> device;
+	ComPtr<ID3D11DeviceContext> context;
+	
+	D3D11CreateDevice(nullptr, // specify null to use the default adapter
 		D3D_DRIVER_TYPE_HARDWARE,
 		0,
-		creationFlags,
-		featureLevels,
-		ARRAYSIZE(featureLevels), 
+		creationFlags,               //optionally set debug and Direct2D compatibility flags
+		featureLevels,               //list of feature levels this app can support
+		ARRAYSIZE(featureLevels),    //number of possible feature levels
 		D3D11_SDK_VERSION,
-		&pD3D11Device,
-		&m_featureLevel,
-		&pD3D11DeviceContext);
+		&device,                     //return the Direct3D device created
+		&m_featureLevel,             //return feature level of device created
+		&context                     //returns the device immediate context
+	);
 
-	IDXGIDevice* dxgiDevice = NULL;
+	ComPtr<IDXGIDevice1> dxgiDevice;
 
-	//Not Comptr
-	//pD3D11Device->As(&dxgiDevice);
+	//obtain the underlying DXGI device of the Direct3D11 device
+	device.As(&dxgiDevice);
+
+	m_d2dFactory->CreateDevice(dxgiDevice.Get(), &m_d2dDevice);
+
+	m_d2dDevice->CreateDeviceContext(D2D1_DEVICE_CONTEXT_OPTIONS_NONE, &m_d2dContext);
+
+
+	//Selecing a target
+	DXGI_SWAP_CHAIN_DESC1 swapChainDesc = { 0 };
+	swapChainDesc.Width = 0;
+	swapChainDesc.Height = 0;
+	swapChainDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;   //this is the most common swapchain format
+	swapChainDesc.Stereo = false;
+	swapChainDesc.SampleDesc.Count = 1;                  //don't use multi-sampling
+	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	swapChainDesc.BufferCount = 2;                       //use double buffering to enable flip 
+	swapChainDesc.Scaling = DXGI_SCALING_NONE;
+	swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL;//all apps must use this SwapEffect
+
+
+	ComPtr<IDXGIAdapter> dxgiAdapter;
+	dxgiDevice->GetAdapter(&dxgiAdapter);
+
+	ComPtr<IDXGIFactory2> dxgiFactory;
+	dxgiAdapter->GetParent(IID_PPV_ARGS(&dxgiFactory));
+	dxgiFactory->CreateSwapChainForHwnd(device.Get(),
+		hwnd,
+		&swapChainDesc,
+		nullptr,
+		nullptr,
+		&m_swapChain);
+
+	dxgiDevice->SetMaximumFrameLatency(1);
+
+	ComPtr<ID3D11Texture2D> backBuffer;
+	m_swapChain->GetBuffer(0, IID_PPV_ARGS(&backBuffer));
+
+	D2D1_BITMAP_PROPERTIES1 bitmapProperties =
+		D2D1::BitmapProperties1(D2D1_BITMAP_OPTIONS_TARGET|D2D1_BITMAP_OPTIONS_CANNOT_DRAW,
+			D2D1::PixelFormat(DXGI_FORMAT_B8G8R8A8_UNORM,D2D1_ALPHA_MODE_IGNORE));
+
+	ComPtr<IDXGISurface> dxgiBackBuffer;
+	m_swapChain->GetBuffer(0, IID_PPV_ARGS(&dxgiBackBuffer));
+
+	m_d2dContext->CreateBitmapFromDxgiSurface(dxgiBackBuffer.Get(),&bitmapProperties,&m_d2dTargetBitmap);
+
+	m_d2dContext->SetTarget(m_d2dTargetBitmap.Get());
 }

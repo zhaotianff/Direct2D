@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{5F3AA6B5-42F7-4300-BAC8-D684CAC46449}</ProjectGuid>
+    <ProjectGuid>{798CF43A-DAB0-480F-B426-35288B02BE27}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Direct2DDeviceContext</RootNamespace>
+    <RootNamespace>ConvertRenderTargetToDeviceContext</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -151,19 +151,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Direct2DDeviceContext.h" />
+    <ClInclude Include="ConvertRenderTargetToDeviceContext.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Direct2DDeviceContext.cpp" />
+    <ClCompile Include="ConvertRenderTargetToDeviceContext.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Direct2DDeviceContext.rc" />
+    <ResourceCompile Include="ConvertRenderTargetToDeviceContext.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Direct2DDeviceContext.ico" />
+    <Image Include="ConvertRenderTargetToDeviceContext.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

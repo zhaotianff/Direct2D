@@ -14,6 +14,21 @@
 #include <memory.h>
 #include <tchar.h>
 
+//DX Header Files
+#include <d3d11.h>
+#include "Direct2DDeviceContext.h"
+#include <d2d1.h>
+#include<d2d1_1.h>
+#include<d2d1_2.h>
+#include<d2d1_1helper.h>
+#include<wrl/client.h>
+#include<dxgi1_2.h>
+
+using namespace Microsoft::WRL;
+
+//Unavailable 
+#define SAFERELEASE(ppInterfaceToRelease) if(ppInterfaceToRelease){ppInterfaceToRelease->Release() ; ppInterfaceToRelease = NULL ;}
+
 namespace DX
 {
 	// Convert DirectX error codes to exceptions.
@@ -22,7 +37,9 @@ namespace DX
 		if (FAILED(hr))
 		{
 			// Set a breakpoint on this line to catch DX API errors.
-			throw Platform::Exception::CreateException(hr);
+			throw hr;
+			//need Windows 8+ OS
+			//throw Platform::Exception::CreateException(hr);
 		}
 	}
 
